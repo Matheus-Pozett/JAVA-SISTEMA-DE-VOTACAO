@@ -1,13 +1,16 @@
 package com.betrybe.sistemadevotacao;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 /**
  * The type Gerenciamento votacao.
  */
 public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
 
-  private ArrayList<PessoaCandidata> pessoasCandidatas = new ArrayList<>();
-  private ArrayList<PessoaEleitora> pessoasEleitoras = new ArrayList<>();
-  private ArrayList<String> cpfsComputados = new ArrayList<>();
+  private final ArrayList<PessoaCandidata> pessoasCandidatas = new ArrayList<>();
+  private final ArrayList<PessoaEleitora> pessoasEleitoras = new ArrayList<>();
+  private final ArrayList<String> cpfsComputados = new ArrayList<>();
 
   @Override
   public void cadastrarPessoaCandidata(String nome, int numero) {
@@ -33,12 +36,11 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
   public void votar(String cpfPessoaEleitora, int numeroPessoaCandidata) {
     if (cpfsComputados.stream().anyMatch(cpf -> cpf.equals(cpfPessoaEleitora))) {
       System.out.println("Pessoa eleitora já votou!");
-      return;
     } else {
-      List<PessoaCandidata> candidato = pessoasCandidatas.stream()
+      Optional<PessoaCandidata> candidato = pessoasCandidatas.stream()
               .filter(p -> p.getNumero() == numeroPessoaCandidata).findFirst();
 
-      candidato.receberVoto();
+      candidato.ifPresent(PessoaCandidata::receberVoto);
       cpfsComputados.add(cpfPessoaEleitora);
     }
   }
@@ -47,7 +49,7 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
   public void mostrarResultado() {
     int totalDeVotos = cpfsComputados.size();
 
-    pessoasCandidatas.stream()
+    pessoasCandidatas
             .forEach(candidato -> {
               double votosDoCandidato = candidato.getVotos();
               double porcentagemDecimal = (votosDoCandidato / totalDeVotos) * 100.0;
