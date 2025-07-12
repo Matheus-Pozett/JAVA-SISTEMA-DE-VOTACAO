@@ -55,7 +55,7 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
               double porcentagemDecimal = (votosDoCandidato / totalDeVotos) * 100.0;
               int porcentagemInt = (int) Math.round(porcentagemDecimal);
 
-              System.out.printf("Nome: %s - %d votos (%d%%)%n",
+              System.out.printf("Nome: %s - %d votos ( %d%% )%n",
                       candidato.getNome(),
                       candidato.getVotos(),
                       porcentagemInt);
