@@ -27,8 +27,12 @@ public class GerenciamentoVotacao implements GerenciamentoVotacaoInterface {
     if (pessoasEleitoras.stream().anyMatch(p -> p.getCpf().equals(cpf))) {
       System.out.println("Pessoa eleitora já cadastrada!");
     } else {
-      PessoaEleitora pessoaEleitora = new PessoaEleitora(nome, cpf);
-      pessoasEleitoras.add(pessoaEleitora);
+      try {
+        PessoaEleitora pessoaEleitora = new PessoaEleitora(nome, cpf);
+        pessoasEleitoras.add(pessoaEleitora);
+      } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+      }
     }
   }
 
